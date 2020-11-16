@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
-import Constant from 'expo-constants'
 
 export default function Header() {
   const themeAccentColor = "#212121"
@@ -33,7 +32,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1},
     shadowColor: 'black', 
     shadowOpacity: 0.4,
-    marginTop: Constant.statusBarHeight,
     alignItems: 'center',
     justifyContent: 'space-between'
   },

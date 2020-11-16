@@ -1,2 +1,3 @@
 # YouTube Clone
-A YouTube Clone app made using Expo
+
+A cross platform mobile YouTube Clone app made using Expo
