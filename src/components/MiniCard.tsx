@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 
-export default function MiniCard() {
+interface IProps {
+    videoId: any
+    title: any
+    channel: any
+}
+
+export default function MiniCard(props: IProps) {
     return (
         <View style = {styles.container}>
             <Image 
-                source= {{uri: 'https://assets.pokemon.com/assets/cms2/img/video-games/_tiles/pokemon-go/11062020/pokemon-go-169.jpg'}}
+                source= {{uri: `https://i.ytimg.com/vi/${props.videoId}/default.jpg`}}
                 style = {styles.video_image}
                 />
 
                 <View style = {styles.title_holder}>
-                    <Text style= {styles.title_text} ellipsizeMode= 'tail' numberOfLines= {3}>Chal rha hai apna haiohfoin aiashoiasf aoih ioasopifsajf aopsfjapo</Text>
-                    <Text style= {styles.secondary_title_text}>Chal rha hai apna </Text>
+                    <Text style= {styles.title_text} ellipsizeMode= 'tail' numberOfLines= {3}>{props.title}</Text>
+                    <Text style= {styles.secondary_title_text}>{props.channel}</Text>
                 </View>
             </View>
     )
@@ -21,12 +27,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "row",
-        marginTop: 10
+        marginTop: 10,
+        paddingStart: 15,
+        paddingEnd: 15
     }, 
     video_image: {
         width: '45%',
         height: 120,
-        marginLeft: 15
     },
     title_holder: {
         marginLeft: 10,

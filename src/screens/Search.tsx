@@ -1,12 +1,40 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, View, ActivityIndicator , TextInput, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons' 
 import MiniCard from '../components/MiniCard';
+import {YoutubeResult} from '../classes/youtube_result'
+
+
 
 export default function Search() {
     const [value, setValue] = useState("")
+    const [miniCardData, setMiniCard] = useState<YoutubeResult[] | null>(null);
+    const [isLoading, setIsLoading] = useState(false)
     const themeAccentColor = "#212121"
 
+    const API_URL = 'https://youtube.googleapis.com/youtube/v3/search'
+    const API_TOKEN = 'AIzaSyCNtMEy5ZT19xsbG-iib47ZVA-iD_QOHc8'
+
+    const fetchData = () => {
+        setIsLoading(true)
+        const url = `${API_URL}?q=${value}&key=${API_TOKEN}&part=snippet&type=video&maxResults=10`;
+        console.log(url)
+        fetch(url)
+            .then(res=> res.json())
+            .then(data => {
+                setMiniCard(data.items)
+                setIsLoading(false)
+            })
+      }
+
+     const renderMiniCard = ({item}:{item: YoutubeResult}) => (
+        <MiniCard
+            videoId = {item.id.videoId}
+            title = {item.snippet.title}
+            channel = {item.snippet.channelTitle}
+        />
+     );
+    
     return (
         <View style = {styles.container}>
             <View style = {styles.search_box}>
@@ -16,22 +44,14 @@ export default function Search() {
                 style = {styles.search_text_style}
                 onChangeText = {(text) => setValue(text)}
                 />
-                <Ionicons name = 'md-send' size = {32}/> 
+                <Ionicons name = 'md-send' size = {32} onPress= {() => fetchData()}/> 
             </View>
-            <ScrollView>
-                <MiniCard/>
-                <MiniCard/>
-                <MiniCard/>
-                <MiniCard/>
-                <MiniCard/>
-                <MiniCard/>
-                <MiniCard/>
-                <MiniCard/>
-                <MiniCard/>
-                <MiniCard/>
-                <MiniCard/>
-                <MiniCard/>
-            </ScrollView>
+            {isLoading ? <ActivityIndicator size = "large" color= "red" style={styles.loader_style}/>: null}
+            <FlatList
+            keyExtractor= {(item, index) => String(index)}
+            data = { miniCardData }
+            renderItem = { renderMiniCard}
+            />
         </View>
     )
 }
@@ -61,6 +81,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#e6e6e6",
         marginStart: 20,
         marginEnd: 20
+    },
+    loader_style: {
+        marginTop: 20
     }
    
 })
