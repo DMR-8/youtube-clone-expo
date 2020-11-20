@@ -15,7 +15,6 @@ export default function Header() {
           </Text>
         </View>
         <View style = {styles.right_icon_view}>
-          <Ionicons style= {styles.icon_view} name = 'ios-videocam' size={34} color = {themeAccentColor}/>
           <Ionicons style= {styles.icon_view} name = 'ios-search' size={34} color = {themeAccentColor} onPress={() => navigation.navigate('search')}/>
         </View>
     </View>

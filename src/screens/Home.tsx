@@ -4,12 +4,16 @@ import Card from '../components/Card'
 import Header from '../components/Header';
 import { YoutubeResult } from '../classes/youtube_result'
 import { API_TOKEN } from '../components/values'
+import { useDispatch, useSelector } from 'react-redux'
+import { IReducer } from '../reducers/interfaces'
 
 export default function Home() {
-  const [cardData, setCard] = useState<YoutubeResult[] | null>(null);
   const [isLoading, setIsLoading] = useState(false)
   const API_URL = 'https://youtube.googleapis.com/youtube/v3/search'
-
+  const dispatch = useDispatch()
+  const cardData = useSelector( (state: IReducer)=> {
+    return state.exploreCardDetails
+  })
     const fetchData = () => {
         setIsLoading(true)
         const url = `${API_URL}?&key=${API_TOKEN}&part=snippet&type=video&maxResults=10`;
@@ -17,8 +21,8 @@ export default function Home() {
         fetch(url)
             .then(res=> res.json())
             .then(data => {
-                setCard(data.items)
-                setIsLoading(false)
+              dispatch({type: 'updateExplore', payload: data.items})
+              setIsLoading(false)
             })
       }
     const renderCard = ({item}:{item: YoutubeResult}) => (
@@ -39,7 +43,7 @@ export default function Home() {
       <FlatList
       keyExtractor= {(item, index) => String(index)}
       data = { cardData }
-      renderItem = { renderCard}
+      renderItem = { renderCard }
       />
     </View>
   );

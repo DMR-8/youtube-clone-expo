@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 interface IProps {
     videoId: any
@@ -8,18 +10,23 @@ interface IProps {
 }
 
 export default function MiniCard(props: IProps) {
+    const navigation = useNavigation()
     return (
-        <View style = {styles.container}>
-            <Image 
-                source= {{uri: `https://i.ytimg.com/vi/${props.videoId}/hqdefault.jpg`}}
-                style = {styles.video_image}
-                />
+        <TouchableOpacity
+            onPress = {()=> {navigation.navigate('videoPlayer', {videoId: props.videoId, title: props.title})}}
+            >
+            <View style = {styles.container}>
+                <Image 
+                    source= {{uri: `https://i.ytimg.com/vi/${props.videoId}/hqdefault.jpg`}}
+                    style = {styles.video_image}
+                    />
 
-                <View style = {styles.title_holder}>
-                    <Text style= {styles.title_text} ellipsizeMode= 'tail' numberOfLines= {3}>{props.title}</Text>
-                    <Text style= {styles.secondary_title_text}>{props.channel}</Text>
+                    <View style = {styles.title_holder}>
+                        <Text style= {styles.title_text} ellipsizeMode= 'tail' numberOfLines= {3}>{props.title}</Text>
+                        <Text style= {styles.secondary_title_text}>{props.channel}</Text>
+                    </View>
                 </View>
-            </View>
+            </TouchableOpacity>
     )
 }
 

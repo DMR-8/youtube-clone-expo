@@ -7,14 +7,14 @@ import Home from './src/screens/Home'
 import History from './src/screens/History'
 import Search from './src/screens/Search'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import VideoPlayer from './src/screens/VideoPlayer'
+import VideoPlayer, { IProps as VideoPlayerProps } from './src/screens/VideoPlayer'
 import Constant from 'expo-constants'    
 import { MaterialIcons } from '@expo/vector-icons'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import { MainReducer } from './src/reducers/reducer'
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator<RootStackParamList>()
 const Tabs = createBottomTabNavigator()
 const store = createStore(MainReducer)
 
@@ -47,6 +47,9 @@ const RootHome = () => {
   )
 }
 
+export type RootStackParamList = {
+  videoPlayer: VideoPlayerProps;
+};
 export default function App() {
   return (
     <Provider store = { store }>
