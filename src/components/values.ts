@@ -1,2 +1,2 @@
 
-export const API_TOKEN ='AIzaSyBYn2KJERpvETt2ouMQpitO8_2PonF6R5M'
+export const API_TOKEN ='ADD_YOUR_API_TOKEN HERE'
