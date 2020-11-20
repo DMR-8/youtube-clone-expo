@@ -1,10 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 
 export default function Header() {
   const themeAccentColor = "#212121"
+  const navigation = useNavigation()
   return (
     <View style={styles.container}>
         <View style= {styles.icon_view}> 
@@ -15,8 +16,7 @@ export default function Header() {
         </View>
         <View style = {styles.right_icon_view}>
           <Ionicons style= {styles.icon_view} name = 'ios-videocam' size={34} color = {themeAccentColor}/>
-          <Ionicons style= {styles.icon_view} name = 'ios-search' size={34} color = {themeAccentColor}/>
-          <MaterialCommunityIcons style= {styles.icon_view}  name = 'alarm-light' size={34} color = {themeAccentColor}/>
+          <Ionicons style= {styles.icon_view} name = 'ios-search' size={34} color = {themeAccentColor} onPress={() => navigation.navigate('search')}/>
         </View>
     </View>
   );
@@ -46,6 +46,6 @@ const styles = StyleSheet.create({
   },
   right_icon_view: {
     flexDirection: 'row',
-    margin: 5,
+    margin: 10,
   }
 });

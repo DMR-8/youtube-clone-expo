@@ -11,7 +11,7 @@ export default function MiniCard(props: IProps) {
     return (
         <View style = {styles.container}>
             <Image 
-                source= {{uri: `https://i.ytimg.com/vi/${props.videoId}/default.jpg`}}
+                source= {{uri: `https://i.ytimg.com/vi/${props.videoId}/hqdefault.jpg`}}
                 style = {styles.video_image}
                 />
 

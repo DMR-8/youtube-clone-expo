@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, ActivityIndicator , TextInput, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons' 
 import MiniCard from '../components/MiniCard';
-import {YoutubeResult} from '../classes/youtube_result'
-
+import { YoutubeResult } from '../classes/youtube_result'
+import { useNavigation } from '@react-navigation/native'
+import { API_TOKEN } from '../components/values'
+import { useDispatch, useSelector } from 'react-redux'
+import { IReducer } from '../reducers/interfaces';
 
 
 export default function Search() {
     const [value, setValue] = useState("")
-    const [miniCardData, setMiniCard] = useState<YoutubeResult[] | null>(null);
+    const miniCardData = useSelector( (state: IReducer)=> {
+        return state.cardDetails
+    })
+    const dispatch = useDispatch()
     const [isLoading, setIsLoading] = useState(false)
     const themeAccentColor = "#212121"
-
+    const navigation = useNavigation()
     const API_URL = 'https://youtube.googleapis.com/youtube/v3/search'
-    const API_TOKEN = 'AIzaSyCNtMEy5ZT19xsbG-iib47ZVA-iD_QOHc8'
 
     const fetchData = () => {
         setIsLoading(true)
@@ -22,7 +27,7 @@ export default function Search() {
         fetch(url)
             .then(res=> res.json())
             .then(data => {
-                setMiniCard(data.items)
+                dispatch({type: 'update', payload: data.items})
                 setIsLoading(false)
             })
       }
@@ -35,11 +40,16 @@ export default function Search() {
         />
      );
     
+    useEffect(() => {
+        dispatch({type:'update', payload: []})
+    },[])
     return (
         <View style = {styles.container}>
             <View style = {styles.search_box}>
                 <Ionicons 
-                    name = 'md-arrow-back' size = {32}/>
+                    name = 'md-arrow-back' size = {32}
+                    onPress = {()=> {navigation.goBack()}}
+                    />
                 <TextInput
                 style = {styles.search_text_style}
                 onChangeText = {(text) => setValue(text)}
@@ -63,7 +73,7 @@ const styles = StyleSheet.create({
     search_box: 
     {
         padding: 5,
-        paddingTop: 10,
+        paddingTop: 15,
         paddingBottom: 10,
         justifyContent: "center",
         flexDirection:"row",
