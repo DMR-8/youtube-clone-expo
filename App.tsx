@@ -48,7 +48,9 @@ const RootHome = () => {
 }
 
 export type RootStackParamList = {
+  rootHome: any;
   videoPlayer: VideoPlayerProps;
+  search: any;
 };
 export default function App() {
   return (
